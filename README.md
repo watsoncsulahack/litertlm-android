@@ -31,6 +31,22 @@ bazel-bin/runtime/engine/litert_lm_main
 For CPU, push only the binary and model. For GPU, also push
 `prebuilt/android_arm64/*.so` and run with `LD_LIBRARY_PATH`.
 
+GPU prebuilts come from:
+
+```text
+https://github.com/google-ai-edge/LiteRT-LM/tree/main/prebuilt/android_arm64
+```
+
+Expected files include:
+
+- `libGemmaModelConstraintProvider.so`
+- `libLiteRtGpuAccelerator.so`
+- `libLiteRtOpenClAccelerator.so`
+- `libLiteRtTopKOpenClSampler.so`
+- `libLiteRtTopKWebGpuSampler.so`
+- `libLiteRtWebGpuAccelerator.so`
+- `libwebgpu_dawn.so`
+
 ## Host Prerequisites
 
 - Linux or macOS build host
@@ -47,10 +63,13 @@ Set:
 export ANDROID_NDK_HOME=/absolute/path/to/android-ndk-r28b
 ```
 
+The scripts also auto-detect NDKs under `/root/.android-build/android-sdk/ndk`.
+
 ## Quick Start
 
 ```sh
 ./scripts/fetch_litert_lm.sh
+./scripts/preflight.sh
 ./scripts/build_android_arm64.sh
 
 MODEL_PATH=/absolute/path/to/models/gemma-4-E2B-it.litertlm \
@@ -70,6 +89,14 @@ Benchmark:
 MODEL_PATH=/absolute/path/to/models/gemma-4-E2B-it.litertlm \
   ./scripts/benchmark_android.sh cpu
 ```
+
+## Build Host Note
+
+The official Android NDK installed by Android SDK Manager uses Linux x86_64 host
+tools. Building inside ARM64 Ubuntu/PRoot on the phone can fail before compile
+with an NDK clang host-tool error. In that case, use the GitHub Actions workflow
+in this repo or another x86_64 Linux host to build the binary, then push the
+artifact to the phone for offline runtime testing.
 
 ## Offline Mode
 

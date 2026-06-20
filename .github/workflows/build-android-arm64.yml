@@ -1,0 +1,52 @@
+name: Build Android ARM64 LiteRT-LM Runner
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Check out runner repo
+        uses: actions/checkout@v4
+
+      - name: Install host dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y git-lfs unzip
+          mkdir -p "$HOME/.local/bin"
+          curl -L -o "$HOME/.local/bin/bazelisk" \
+            https://github.com/bazelbuild/bazelisk/releases/latest/download/bazelisk-linux-amd64
+          chmod +x "$HOME/.local/bin/bazelisk"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Install Android NDK r28b
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "ndk;28.1.13356709"
+          echo "ANDROID_NDK_HOME=$ANDROID_HOME/ndk/28.1.13356709" >> "$GITHUB_ENV"
+
+      - name: Fetch LiteRT-LM source and GPU prebuilts
+        run: ./scripts/fetch_litert_lm.sh
+
+      - name: Preflight
+        run: ./scripts/preflight.sh
+
+      - name: Build litert_lm_main for Android ARM64
+        run: ./scripts/build_android_arm64.sh
+
+      - name: Package runner artifact
+        run: |
+          mkdir -p artifacts/litert-lm-android-arm64
+          cp LiteRT-LM/bazel-bin/runtime/engine/litert_lm_main artifacts/litert-lm-android-arm64/
+          cp LiteRT-LM/prebuilt/android_arm64/*.so artifacts/litert-lm-android-arm64/
+          (cd artifacts && tar -czf litert-lm-android-arm64.tar.gz litert-lm-android-arm64)
+
+      - name: Upload runner artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: litert-lm-android-arm64
+          path: artifacts/litert-lm-android-arm64.tar.gz
