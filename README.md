@@ -1,6 +1,8 @@
-# LiteRT-LM Android Runner
+# litertlm-android
 
 Reproducible build/run wrapper for testing `.litertlm` models directly on Android.
+The main build path is GitHub Actions on an x86_64 Linux runner, then runtime
+testing on the phone.
 
 This repo intentionally does not store model files. Keep downloaded models in a local
 `models/` directory outside Git, then pass the model path to the scripts.
@@ -66,6 +68,15 @@ export ANDROID_NDK_HOME=/absolute/path/to/android-ndk-r28b
 The scripts also auto-detect NDKs under `/root/.android-build/android-sdk/ndk`.
 
 ## Quick Start
+
+Build on GitHub:
+
+1. Push this repo to `watsoncsulahack/litertlm-android`.
+2. Open **Actions -> Build Android ARM64 LiteRT-LM Runner**.
+3. Run the workflow with `litert_lm_ref=main` or a pinned upstream SHA.
+4. Download the `litert-lm-android-arm64` artifact.
+
+Local build, for machines with a working Android NDK:
 
 ```sh
 ./scripts/fetch_litert_lm.sh

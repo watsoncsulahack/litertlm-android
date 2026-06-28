@@ -1,0 +1,17 @@
+diff --git a/cmake/packages/litert/litert_patcher.cmake b/cmake/packages/litert/litert_patcher.cmake
+index e79a903b..23930c58 100644
+--- a/cmake/packages/litert/litert_patcher.cmake
++++ b/cmake/packages/litert/litert_patcher.cmake
+@@ -114,11 +114,7 @@ patch_file_content("${LITERT_SRC_DIR}/cc/internal/litert_runtime_builtin.cc"
+ )
+ 
+ file(READ "${LITERT_PACKAGE_DIR}/shims/litert_cc_options_shim.cmake" litert_cc_options_shim_CONTENT)
+-patch_file_content("${LITERT_SRC_DIR}/cc/options/CMakeLists.txt"
+-    "cmake_minimum_required\\(VERSION 3.20\\).*"
+-    ${litert_cc_options_shim_CONTENT}
+-    TRUE
+-)
++file(WRITE "${LITERT_SRC_DIR}/cc/options/CMakeLists.txt" "${litert_cc_options_shim_CONTENT}")
+ 
+ set(GPU_INJECTION_STR
+ "\${TFLITE_SOURCE_DIR}/delegates/gpu/cl/gl_interop.cc

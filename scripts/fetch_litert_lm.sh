@@ -12,6 +12,7 @@ else
 fi
 
 git -C "$CHECKOUT_DIR" checkout "$REF"
+git -C "$CHECKOUT_DIR" submodule update --init --recursive || true
 
 if command -v git-lfs >/dev/null 2>&1; then
   git -C "$CHECKOUT_DIR" lfs install --local

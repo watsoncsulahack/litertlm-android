@@ -1,0 +1,12 @@
+diff --git a/cmake/packages/tflite/tflite.cmake b/cmake/packages/tflite/tflite.cmake
+index 789c9cbf..0fd1c66c 100644
+--- a/cmake/packages/tflite/tflite.cmake
++++ b/cmake/packages/tflite/tflite.cmake
+@@ -122,6 +122,7 @@ if(NOT EXISTS "${TFLITE_STATIC_LIB}")
+             -DTFLITE_ENABLE_RESOURCE_VARIABLE=OFF
+             -DXNNPACK_SET_VERBOSITY=OFF
+             -DTFLITE_ENABLE_GPU=OFF
++            -DANDROID_LOG_LIB=/system/lib64/liblog.so
+ 
+             -DTFLITE_SRC_DIR=${TFLITE_SRC_DIR}
+             -DTFLITE_BUILD_DIR=${TFLITE_BUILD_DIR}

@@ -1,0 +1,17 @@
+diff --git a/cmake/packages/tflite/tflite_target_map.cmake b/cmake/packages/tflite/tflite_target_map.cmake
+index c5eb3e4..24c254f 100644
+--- a/cmake/packages/tflite/tflite_target_map.cmake
++++ b/cmake/packages/tflite/tflite_target_map.cmake
+@@ -83,9 +83,10 @@ set(TFLITE_TARGET_MAP
+     "tflite_profiling=${TFLITE_LIB_DIR}/libtflite_profiling.a"
+ )
+ 
+-if(LITERTLM_TOOLCHAIN_ARGS)
+-    message(STATUS "[LiteRTLM] Cross-compilation detected: Appending ARM64 targets.")
++if(EXISTS "${TFLITE_LIB_DIR}/libkleidiai.a")
+     list(APPEND TFLITE_TARGET_MAP "kleidiai=${TFLITE_LIB_DIR}/libkleidiai.a")
++elseif(EXISTS "${TFLITE_BUILD_DIR}/kleidiai/libkleidiai.a")
++    list(APPEND TFLITE_TARGET_MAP "kleidiai=${TFLITE_BUILD_DIR}/kleidiai/libkleidiai.a")
+ endif()
+ 
+ 

@@ -1,0 +1,17 @@
+diff --git a/cmake/packages/litert/litert_patcher.cmake b/cmake/packages/litert/litert_patcher.cmake
+index e28b3d75..a87b535f 100644
+--- a/cmake/packages/litert/litert_patcher.cmake
++++ b/cmake/packages/litert/litert_patcher.cmake
+@@ -147,6 +147,12 @@ patch_file_content("${LITERT_SRC_DIR}/c/CMakeLists.txt"
+     FALSE
+ )
+ 
++patch_file_content("${LITERT_SRC_DIR}/c/CMakeLists.txt"
++    "# Provide missing TensorFlow Lite GPU GL core objects for Android builds.\nif(LITERT_PLATFORM_ANDROID)"
++    "# Provide missing TensorFlow Lite GPU GL core objects for Android builds.\nif(LITERT_PLATFORM_ANDROID AND LITERT_ENABLE_GPU)"
++    FALSE
++)
++
+ # --- Decouple Vendor Dependencies
+ set(V_LIST "${LITERT_SRC_DIR}/vendors/CMakeLists.txt")
+ if(EXISTS "${V_LIST}")

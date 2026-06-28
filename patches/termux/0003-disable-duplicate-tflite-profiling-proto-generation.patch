@@ -1,0 +1,14 @@
+diff --git a/cmake/packages/tflite/tflite_patcher.cmake b/cmake/packages/tflite/tflite_patcher.cmake
+index b98c5f94..3685f430 100644
+--- a/cmake/packages/tflite/tflite_patcher.cmake
++++ b/cmake/packages/tflite/tflite_patcher.cmake
+@@ -102,6 +102,9 @@ if(EXISTS "${XNN_DELEGATE_CMAKELISTS}")
+     file(READ "${XNN_DELEGATE_CMAKELISTS}" CONTENT)
+     string(REPLACE "\"\${FLATBUFFERS_FLATC_EXECUTABLE}\"" "\"${FLATC_EXECUTABLE}\"" CONTENT "${CONTENT}")
+     string(REPLACE "\"\${FLATC_TARGET}\"" "\"${FLATC_EXECUTABLE}\"" CONTENT "${CONTENT}")
++    string(REPLACE "add_subdirectory(\${TFLITE_SOURCE_DIR}/profiling/proto)"
++           "# [LiteRTLM] Disabled duplicate profiling/proto generation.\n# add_subdirectory(\${TFLITE_SOURCE_DIR}/profiling/proto)"
++           CONTENT "${CONTENT}")
+     file(WRITE "${XNN_DELEGATE_CMAKELISTS}" "${CONTENT}")
+ endif()
+ 

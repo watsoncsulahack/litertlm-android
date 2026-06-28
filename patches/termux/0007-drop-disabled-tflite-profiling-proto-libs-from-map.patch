@@ -1,0 +1,13 @@
+diff --git a/cmake/packages/tflite/tflite_target_map.cmake b/cmake/packages/tflite/tflite_target_map.cmake
+index cdcfa15b..fc5d2600 100644
+--- a/cmake/packages/tflite/tflite_target_map.cmake
++++ b/cmake/packages/tflite/tflite_target_map.cmake
+@@ -76,8 +76,6 @@ set(TFLITE_TARGET_MAP
+     "fft2d::fft4f2d=${TFLITE_BUILD_DIR}/_deps/fft2d-build/libfft2d_fft4f2d.a"
+     "fft2d::fftsg3d=${TFLITE_BUILD_DIR}/_deps/fft2d-build/libfft2d_fftsg3d.a"
+     "fft2d::alloc=${TFLITE_BUILD_DIR}/_deps/fft2d-build/libfft2d_alloc.a"
+-    "tflite_model_runtime_info_proto=${TFLITE_BUILD_DIR}/profiling/proto/libmodel_runtime_info_proto.a"
+-    "tflite_profiling_info_proto=${TFLITE_BUILD_DIR}/profiling/proto/libprofiling_info_proto.a"
+     "tflite_benchmark_result_proto=${TFLITE_BUILD_DIR}/tools/benchmark/proto/libbenchmark_result_proto.a"
+     "tflite_feature_proto=${TFLITE_BUILD_DIR}/example_proto_generated/libfeature_proto.a"
+     "tflite_example_proto=${TFLITE_BUILD_DIR}/example_proto_generated/libexample_proto.a"

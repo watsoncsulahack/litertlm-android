@@ -2,17 +2,35 @@ name: Build Android ARM64 LiteRT-LM Runner
 
 on:
   workflow_dispatch:
+    inputs:
+      litert_lm_ref:
+        description: LiteRT-LM branch, tag, or SHA to build
+        required: false
+        default: main
   push:
     branches: [main]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 180
+    env:
+      LITERT_LM_REF: ${{ github.event.inputs.litert_lm_ref || 'main' }}
 
     steps:
       - name: Check out runner repo
         uses: actions/checkout@v4
+
+      - name: Cache Bazel and LiteRT-LM checkout
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/bazel
+            LiteRT-LM
+          key: litertlm-android-${{ runner.os }}-${{ env.LITERT_LM_REF }}-${{ hashFiles('scripts/*.sh') }}
+          restore-keys: |
+            litertlm-android-${{ runner.os }}-${{ env.LITERT_LM_REF }}-
+            litertlm-android-${{ runner.os }}-
 
       - name: Install host dependencies
         run: |
@@ -37,6 +55,11 @@ jobs:
 
       - name: Build litert_lm_main for Android ARM64
         run: ./scripts/build_android_arm64.sh
+
+      - name: Verify binary
+        run: |
+          file LiteRT-LM/bazel-bin/runtime/engine/litert_lm_main
+          test -x LiteRT-LM/bazel-bin/runtime/engine/litert_lm_main
 
       - name: Package runner artifact
         run: |

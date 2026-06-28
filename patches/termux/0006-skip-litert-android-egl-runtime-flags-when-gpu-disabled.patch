@@ -1,0 +1,17 @@
+diff --git a/cmake/packages/litert/litert_patcher.cmake b/cmake/packages/litert/litert_patcher.cmake
+index a87b535f..e79a903b 100644
+--- a/cmake/packages/litert/litert_patcher.cmake
++++ b/cmake/packages/litert/litert_patcher.cmake
+@@ -153,6 +153,12 @@ patch_file_content("${LITERT_SRC_DIR}/c/CMakeLists.txt"
+     FALSE
+ )
+ 
++patch_file_content("${LITERT_SRC_DIR}/runtime/CMakeLists.txt"
++    "if(LITERT_PLATFORM_ANDROID)\n    find_library(ANDROID_EGL_LIB EGL)"
++    "if(LITERT_PLATFORM_ANDROID AND LITERT_ENABLE_GPU)\n    find_library(ANDROID_EGL_LIB EGL)"
++    FALSE
++)
++
+ # --- Decouple Vendor Dependencies
+ set(V_LIST "${LITERT_SRC_DIR}/vendors/CMakeLists.txt")
+ if(EXISTS "${V_LIST}")

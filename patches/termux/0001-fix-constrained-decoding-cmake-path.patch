@@ -1,0 +1,13 @@
+diff --git a/runtime/components/CMakeLists.txt b/runtime/components/CMakeLists.txt
+index 36cf93d..59cfd79 100644
+--- a/runtime/components/CMakeLists.txt
++++ b/runtime/components/CMakeLists.txt
+@@ -15,7 +15,7 @@
+ 
+ set(PKG_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
+ 
+-add_subdirectory(constrained_decoding)
++add_subdirectory(logits_processor/constrained_decoding)
+ add_subdirectory(embedding_lookup)
+ add_subdirectory(preprocessor)
+ add_subdirectory(tool_use)
