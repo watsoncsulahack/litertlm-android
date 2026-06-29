@@ -16,6 +16,12 @@ First target model:
 - no `mmproj`
 - CPU first, GPU second
 
+Secondary Tensor G4 NPU target:
+
+- `Gemma3-1B-IT_mix4blk8_jit_ekv1280_Google_Tensor_G4.litertlm`
+- requires Google's `libLiteRtDispatch_GoogleTensor.so` dispatch shim
+- installs/runs from top-level Termux with `BACKEND=npu`
+
 ## What This Builds
 
 Google's source build produces the demo executable:
@@ -99,6 +105,21 @@ Benchmark:
 ```sh
 MODEL_PATH=/absolute/path/to/models/gemma-4-E2B-it.litertlm \
   ./scripts/benchmark_android.sh cpu
+```
+
+Top-level Termux NPU shim install:
+
+```sh
+./scripts/install_google_tensor_npu_runtime.sh
+```
+
+Then run:
+
+```sh
+BACKEND=npu \
+MODEL_PATH=/data/data/com.termux/files/home/models/Gemma3-1B-IT_mix4blk8_jit_ekv1280_Google_Tensor_G4.litertlm \
+PROMPT='Say hello in one short sentence.' \
+/data/data/com.termux/files/home/litertlm-android-runtime/run-litertlm
 ```
 
 ## Build Host Note

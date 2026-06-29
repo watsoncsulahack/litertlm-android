@@ -18,10 +18,13 @@ libraries, and a local wrapper:
 The wrapper sets:
 
 ```sh
-LD_LIBRARY_PATH=/data/data/com.termux/files/home/litertlm-android-runtime:/apex/com.android.i18n/lib64
+LD_LIBRARY_PATH=/data/data/com.termux/files/home/litertlm-android-runtime:/vendor/lib64:/apex/com.android.i18n/lib64
 ```
 
-The Android i18n APEX path is required for `libicu.so`.
+The Android i18n APEX path is required for `libicu.so`. `/vendor/lib64` is
+required for Google Tensor NPU dispatch because
+`libLiteRtDispatch_GoogleTensor.so` loads the Pixel Southbound runtime
+`libedgetpu_litert.so` from the vendor partition.
 
 ## Model
 
